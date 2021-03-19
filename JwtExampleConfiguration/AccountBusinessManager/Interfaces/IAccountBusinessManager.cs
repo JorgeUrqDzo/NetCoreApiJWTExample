@@ -1,5 +1,5 @@
-﻿using JwtExampleConfiguration.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using JwtExampleConfiguration.Data.UserEntities;
+using JwtExampleConfiguration.Models;
 using System.Threading.Tasks;
 
 namespace JwtExampleConfiguration.AccountBusinessManagers.Interfaces
@@ -7,7 +7,7 @@ namespace JwtExampleConfiguration.AccountBusinessManagers.Interfaces
     public interface IAccountBusinessManager
     {
         Task<LoginResponseModel> LoginUser(LoginRequestModel loginRequestModel);
-        Task<IdentityUser> GetUserById(string id);
+        Task<ApplicationUser> GetUserById(string id);
         Task<RegisterResponseModel> RegisterUser(RegisterRequestModel registerRequestModel);
     }
 }

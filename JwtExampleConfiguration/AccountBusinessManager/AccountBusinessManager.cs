@@ -1,4 +1,5 @@
 ﻿using JwtExampleConfiguration.AccountBusinessManagers.Interfaces;
+using JwtExampleConfiguration.Data.UserEntities;
 using JwtExampleConfiguration.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -14,18 +15,18 @@ namespace JwtExampleConfiguration.AccountBusinessManagers
 {
     public class AccountBusinessManager : IAccountBusinessManager
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IConfiguration configuration;
 
-        public AccountBusinessManager(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+        public AccountBusinessManager(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.configuration = configuration;
         }
 
-        public async Task <IdentityUser> GetUserById(string id)
+        public async Task<ApplicationUser> GetUserById(string id)
         {
             return await userManager.FindByIdAsync(id);
         }
@@ -33,7 +34,7 @@ namespace JwtExampleConfiguration.AccountBusinessManagers
         public async Task<LoginResponseModel> LoginUser(LoginRequestModel loginRequestModel)
         {
             var user = await userManager.FindByNameAsync(loginRequestModel.Email);
-            if(user != null && await userManager.CheckPasswordAsync(user, loginRequestModel.Password))
+            if (user != null && await userManager.CheckPasswordAsync(user, loginRequestModel.Password))
             {
                 await signInManager.SignInAsync(user, true);
 
@@ -67,18 +68,18 @@ namespace JwtExampleConfiguration.AccountBusinessManagers
 
         public async Task<RegisterResponseModel> RegisterUser(RegisterRequestModel registerRequestModel)
         {
-            var identityUser = new IdentityUser()
+            var applicationUser = new ApplicationUser()
             {
                 Email = registerRequestModel.Email,
                 UserName = registerRequestModel.Email
             };
 
-            var identityResult = await userManager.CreateAsync(identityUser, registerRequestModel.Password);
+            var identityResult = await userManager.CreateAsync(applicationUser, registerRequestModel.Password);
 
             return new RegisterResponseModel()
             {
                 IdentityResult = identityResult,
-                IdentityUser = identityUser
+                IdentityUser = applicationUser
             };
         }
     }

@@ -19,17 +19,17 @@ namespace JwtExampleConfiguration.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetUserById")]
         public async Task<ActionResult<UserModel>> GetUserById(string id)
         {
-            var identityUser = await accountBusinessManager.GetUserById(id);
+            var applicationUser = await accountBusinessManager.GetUserById(id);
 
-            if(identityUser is null)
+            if(applicationUser is null)
             {
                 return NotFound();
             }
 
-            return new UserModel(identityUser);
+            return new UserModel(applicationUser);
         }
 
         [HttpPost("login")]
@@ -57,7 +57,7 @@ namespace JwtExampleConfiguration.Controllers
             }
 
             var userModel = new UserModel(registerResponseModel.IdentityUser);
-            return CreatedAtAction(nameof(GetUserById), new { Id = userModel.Id });
+            return CreatedAtAction(nameof(GetUserById), new { id = userModel.Id }, userModel);
         }
 
 

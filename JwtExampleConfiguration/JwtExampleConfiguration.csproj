@@ -22,4 +22,8 @@
     <ProjectReference Include="..\JwtExampleConfiguration.Data\JwtExampleConfiguration.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
+
 </Project>

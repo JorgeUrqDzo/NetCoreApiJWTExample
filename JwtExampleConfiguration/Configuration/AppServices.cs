@@ -1,6 +1,7 @@
-﻿using JwtExampleConfiguration.AccountBusinessManagers.Interfaces;
-using JwtExampleConfiguration.AccountBusinessManagers;
+﻿using JwtExampleConfiguration.AccountBusinessManagers;
+using JwtExampleConfiguration.AccountBusinessManagers.Interfaces;
 using JwtExampleConfiguration.Data;
+using JwtExampleConfiguration.Data.UserEntities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace JwtExampleConfiguration.Configuration
                 b => b.MigrationsAssembly("JwtExampleConfiguration")
                 ));
 
-            serviceCollection.AddIdentity<IdentityUser, IdentityRole>()
+            serviceCollection.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
